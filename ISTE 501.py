@@ -1,10 +1,8 @@
 import mysql.connector
 from mysql.connector import Error
-import pandas as pd
-import re
 from apachelogs import LogParser
 
-#filename = 'access_log_20230213-022649.log'
+#filename = 'access_log_20230213-022706.log'
 filename = 'access_log_20230221-002559.log'
 parser = LogParser("%h %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"")
 
@@ -61,9 +59,15 @@ execute_query(connection, create_table)
 def reader(filename):
     with open(filename) as f:
         for entry in parser.parse_lines(f):
-            execute_query(connection, "INSERT INTO logs (ip, date, request, code, bytes, referer, useragent) VALUES ('" + str(entry.remote_host) + "', '" +
-                          str(entry.directives["%t"])  + "', '" + str(entry.request_line)  + "', '" + str(entry.final_status)  + "', '" + 
-                          str(entry.bytes_sent) + "', '" + str(entry.headers_in["Referer"]) + "', '" + str(entry.headers_in["User-Agent"]) + "')")
+            execute_query(connection, "INSERT INTO logs (ip, date, request, code, bytes, referer, useragent) VALUES ('" + 
+                          str(entry.remote_host) + "', '" +
+                          str(entry.directives["%t"])  + "', '" + 
+                          str(entry.request_line)  + "', '" + 
+                          str(entry.final_status)  + "', '" + 
+                          str(entry.bytes_sent) + "', '" + 
+                          str(entry.headers_in["Referer"]) + "', '" + 
+                          str(entry.headers_in["User-Agent"]) + 
+                        "')")
 
 if __name__ == '__main__':
     reader(filename)
