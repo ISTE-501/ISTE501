@@ -3,7 +3,7 @@ from mysql.connector import Error
 from apachelogs import LogParser
 
 #filename = 'access_log_20230213-022706.log'
-filename = 'access_log_20230221-002559.log'
+filename = 'access_log_20230321-185345.log'
 parser = LogParser("%h %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"")
 
 def create_server_connection(host_name, user_name, user_password):
@@ -44,7 +44,7 @@ create_database_query = "CREATE DATABASE mydatabase"
 create_database(connection, create_database_query)
 create_table_log = """
     CREATE TABLE Logs (
-        StudentID VARCHAR(7) NOT NULL, 
+        StudentID VARCHAR(50) NOT NULL, 
         date VARCHAR(255) NOT NULL, 
         request VARCHAR(255), 
         code VARCHAR(255) NOT NULL, 
@@ -87,5 +87,5 @@ def reader(filename):
                           str(entry.headers_in["User-Agent"]) + 
                         "')")
 
-#if __name__ == '__main__':
-    #reader(filename)
+if __name__ == '__main__':
+    reader(filename)

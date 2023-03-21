@@ -70,7 +70,7 @@ for case in switch(output_type):
     if case():
         f = sys.stdout
 
-response=["200","404"]
+response=["200","404","500","301"]
 
 verb=["GET","POST","DELETE","PUT"]
 
@@ -90,7 +90,7 @@ while (flag):
     name = faker.name()
     initials = [ first[0] for first in name.split() ]
     numbers = random.randint(1000, 9999)
-    #studentId = 
+    studentId = ''.join(str(item) for item in initials).lower() + str(numbers)
     
     dt = otime.strftime('%d/%b/%Y:%H:%M:%S')
     tz = datetime.datetime.now(local).strftime('%z')
@@ -101,13 +101,13 @@ while (flag):
         uri += str(random.randint(1000,10000))
 
     resp = numpy.random.choice(response,p=[0.9,0.04,0.02,0.04])
-    byt = int(random.gauss(5000,50))
+    byt = random.randint(1, 5)
     referer = faker.uri()
     useragent = numpy.random.choice(ualist,p=[0.5,0.3,0.1,0.05,0.05] )()
     if log_format == "CLF":
-        f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s\n' % (ip,dt,tz,vrb,uri,resp,byt))
+        f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s\n' % (studentId,dt,tz,vrb,uri,resp,byt))
     elif log_format == "ELF": 
-        f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s "%s" "%s"\n' % (ip,dt,tz,vrb,uri,resp,byt,referer,useragent))
+        f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s "%s" "%s"\n' % (studentId,dt,tz,vrb,uri,resp,byt,referer,useragent))
     f.flush()
 
     log_lines = log_lines - 1
