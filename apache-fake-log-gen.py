@@ -70,7 +70,7 @@ for case in switch(output_type):
     if case():
         f = sys.stdout
 
-response=["200","404","500","301"]
+response=["200","404"]
 
 verb=["GET","POST","DELETE","PUT"]
 
@@ -87,6 +87,11 @@ while (flag):
     otime += increment
 
     ip = faker.ipv4()
+    name = faker.name()
+    initials = [ first[0] for first in name.split() ]
+    numbers = random.randint(1000, 9999)
+    #studentId = 
+    
     dt = otime.strftime('%d/%b/%Y:%H:%M:%S')
     tz = datetime.datetime.now(local).strftime('%z')
     vrb = numpy.random.choice(verb,p=[0.6,0.1,0.1,0.2])

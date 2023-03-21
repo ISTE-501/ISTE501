@@ -42,24 +42,42 @@ def execute_query(connection, query):
 connection = create_server_connection("localhost", "root", "student")
 create_database_query = "CREATE DATABASE mydatabase"
 create_database(connection, create_database_query)
-create_table = """
-    CREATE TABLE logs (
-    ip VARCHAR(255), 
-    date VARCHAR(255), 
-    request VARCHAR(255), 
-    code VARCHAR(255), 
-    bytes VARCHAR(255), 
-    referer VARCHAR(255), 
-    useragent VARCHAR(255)
+create_table_log = """
+    CREATE TABLE Logs (
+        StudentID VARCHAR(7) NOT NULL, 
+        date VARCHAR(255) NOT NULL, 
+        request VARCHAR(255), 
+        code VARCHAR(255) NOT NULL, 
+        referer VARCHAR(255), 
+        useragent VARCHAR(255),
+        classID VARCHAR(255) NOT NULL,
+        PRIMARY KEY (StudentID)
+    );
+"""
+create_table_studentinfo = """
+    CREATE TABLE StudentInfo (
+        FirstName VARCHAR(50) NOT NULL,
+        LastName VARCHAR(50) NOT NULL,
+        StudentID VARCHAR(7) NOT NULL,
+        PRIMARY KEY (FirstName)
     );
 """
 
-execute_query(connection, create_table)
+create_table_classlist = """
+    CREATE TABLE ClassList (
+        classID VARCHAR(255),
+        class VARCHAR(255),
+        PRIMARY KEY (classID)
+    );
+"""
+execute_query(connection, create_table_log)
+execute_query(connection, create_table_studentinfo)
+execute_query(connection, create_table_classlist)
 
 def reader(filename):
     with open(filename) as f:
         for entry in parser.parse_lines(f):
-            execute_query(connection, "INSERT INTO logs (ip, date, request, code, bytes, referer, useragent) VALUES ('" + 
+            execute_query(connection, "INSERT INTO Logs (StudentID, date, request, code, referer, useragent, classID) VALUES ('" + 
                           str(entry.remote_host) + "', '" +
                           str(entry.directives["%t"])  + "', '" + 
                           str(entry.request_line)  + "', '" + 
@@ -69,5 +87,5 @@ def reader(filename):
                           str(entry.headers_in["User-Agent"]) + 
                         "')")
 
-if __name__ == '__main__':
-    reader(filename)
+#if __name__ == '__main__':
+    #reader(filename)
