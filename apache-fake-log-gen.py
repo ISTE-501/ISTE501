@@ -70,7 +70,7 @@ for case in switch(output_type):
     if case():
         f = sys.stdout
 
-response=["200","404","500","301"]
+response=["200","300","401","404","408"]
 
 verb=["GET","POST","DELETE","PUT"]
 
@@ -100,7 +100,7 @@ while (flag):
     if uri.find("apps")>0:
         uri += str(random.randint(1000,10000))
 
-    resp = numpy.random.choice(response,p=[0.9,0.04,0.02,0.04])
+    resp = numpy.random.choice(response,p=[0.9,0.03,0.02,0.03,0.02])
     byt = random.randint(1, 5)
     referer = faker.uri()
     useragent = numpy.random.choice(ualist,p=[0.5,0.3,0.1,0.05,0.05] )()

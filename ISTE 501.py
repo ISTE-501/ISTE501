@@ -3,7 +3,7 @@ from mysql.connector import Error
 from apachelogs import LogParser
 
 #filename = 'access_log_20230213-022706.log'
-filename = 'access_log_20230321-185345.log'
+filename = 'access_log_20230321-231106.log'
 parser = LogParser("%h %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"")
 
 def create_server_connection(host_name, user_name, user_password):
