@@ -88,26 +88,29 @@ while (flag):
 
     ip = faker.ipv4()
     name = faker.name()
+    namesplit = name.split()
+    firstname = namesplit[0]
+    lastname = namesplit[1]
     initials = [ first[0] for first in name.split() ]
     numbers = random.randint(1000, 9999)
     studentId = ''.join(str(item) for item in initials).lower() + str(numbers)
     
     dt = otime.strftime('%d/%b/%Y:%H:%M:%S')
     tz = datetime.datetime.now(local).strftime('%z')
-    vrb = numpy.random.choice(verb,p=[0.6,0.1,0.1,0.2])
+    request = numpy.random.choice(verb,p=[0.6,0.1,0.1,0.2])
 
     uri = random.choice(resources)
     if uri.find("apps")>0:
         uri += str(random.randint(1000,10000))
 
     resp = numpy.random.choice(response,p=[0.9,0.03,0.02,0.03,0.02])
-    byt = random.randint(1, 5)
+    classID = random.randint(1, 4)
     referer = faker.uri()
     useragent = numpy.random.choice(ualist,p=[0.5,0.3,0.1,0.05,0.05] )()
     if log_format == "CLF":
-        f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s\n' % (studentId,dt,tz,vrb,uri,resp,byt))
+        f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s\n' % (studentId,dt,tz,request,uri,resp,classID))
     elif log_format == "ELF": 
-        f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s "%s" "%s"\n' % (studentId,dt,tz,vrb,uri,resp,byt,referer,useragent))
+        f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s "%s" "%s"\n' % (studentId,dt,tz,request,uri,resp,classID,firstname,lastname))
     f.flush()
 
     log_lines = log_lines - 1
