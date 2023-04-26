@@ -78,6 +78,13 @@ resources=["Gibson","Solace"]
 
 ualist = [faker.firefox, faker.chrome, faker.safari, faker.internet_explorer, faker.opera]
 
+
+# Log will only generate x unique studentIDs
+namelist = []
+
+for i in range(100):
+    namelist.append(faker.first_name() + ' ' + faker.last_name() + ' ' + str(random.randint(10, 99)) + ' ' + str(random.randint(1, 4)))
+
 flag = True
 while (flag):
     if args.sleep:
@@ -87,13 +94,13 @@ while (flag):
     otime += increment
 
     ip = faker.ipv4()
-    name = faker.name()
+    name = numpy.random.choice(namelist)
     namesplit = name.split()
     firstname = namesplit[0]
     lastname = namesplit[1]
     initials = [ first[0] for first in name.split() ]
-    numbers = random.randint(1000, 9999)
-    studentId = ''.join(str(item) for item in initials).lower() + str(numbers)
+    studentId = ''.join(str(item) for item in initials).lower() + namesplit[2]
+    classID = namesplit[3]
     
     dt = otime.strftime('%d/%b/%Y:%H:%M:%S')
     tz = datetime.datetime.now(local).strftime('%z')
@@ -104,9 +111,9 @@ while (flag):
         uri += str(random.randint(1000,10000))
 
     resp = numpy.random.choice(response,p=[0.9,0.03,0.02,0.03,0.02])
-    classID = random.randint(1, 4)
+    
     referer = faker.uri()
-    useragent = numpy.random.choice(ualist,p=[0.5,0.3,0.1,0.05,0.05] )()
+    useragent = numpy.random.choice(ualist,p=[0.5,0.3,0.1,0.05,0.05])()
     if log_format == "CLF":
         f.write('%s - - [%s %s] "%s %s HTTP/1.0" %s %s\n' % (studentId,dt,tz,request,uri,resp,classID))
     elif log_format == "ELF": 
